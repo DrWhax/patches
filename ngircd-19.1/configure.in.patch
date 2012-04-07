@@ -1,0 +1,20 @@
+--- configure.in	2012-02-27 16:32:14.000000000 +0100
++++ configure_hardenend.in	2012-04-07 23:31:33.670171590 +0200
+@@ -68,7 +68,7 @@
+   # we use -fstack-protector-all for the test to enfoce the use of the guard variable 
+   AC_MSG_CHECKING([whether ${CC} accepts -fstack-protector])
+   ssp_old_cflags="$CFLAGS"
+-  CFLAGS="$CFLAGS -fstack-protector-all"
++  CFLAGS="$CFLAGS -fstack-protector-all -fwrapv -fPIE -Wstack-protector -O1 -Wall"
+   AC_TRY_LINK(,,, ssp_cc=no)
+   echo $ssp_cc
+   CFLAGS="$ssp_old_cflags"
+@@ -178,7 +178,7 @@
+ 			if test "$withval" != "yes"; then
+ 				CFLAGS="-I$withval/include $CFLAGS"
+ 				CPPFLAGS="-I$withval/include $CPPFLAGS"
+-				LDFLAGS="-L$withval/lib $LDFLAGS"
++				LDFLAGS="-pie -z -relro -z now -L$withval/lib $LDFLAGS"
+ 			fi
+ 			AC_CHECK_LIB(be, syslog)
+ 			AC_CHECK_FUNCS(syslog, x_syslog_on=yes,
